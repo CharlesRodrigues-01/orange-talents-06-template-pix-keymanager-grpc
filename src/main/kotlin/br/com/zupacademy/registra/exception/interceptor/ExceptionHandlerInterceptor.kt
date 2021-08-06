@@ -20,7 +20,7 @@ class ExceptionHandlerInterceptor(@Inject private val resolver: ExceptionHandler
         } catch (e: Exception) {
 
             logger.error("Encontrou erro, lidando com ele")
-            val handler = resolver.resolve(e) as ExceptionHandler<Exception>
+            val handler = resolver.resolve(e) as ExceptionHandler<*>
             val status = handler.handle(e)
 
             GrpcEndpointArguments(context).response()

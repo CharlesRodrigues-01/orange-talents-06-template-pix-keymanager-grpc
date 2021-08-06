@@ -7,11 +7,11 @@ import io.grpc.protobuf.StatusProto
 
 interface ExceptionHandler<in E : Exception> {
 
-    fun handle(e: E): StatusWithDetails
+    fun handle(e: Exception): StatusWithDetails
 
     fun supports(e: Exception): Boolean
 
-    data class StatusWithDetails(val status: Status, val metadata: io.grpc.Metadata = Metadata()) {
+    data class StatusWithDetails(val status: Status, val metadata: Metadata = Metadata()) {
         constructor(se: StatusRuntimeException) : this(se.status, se.trailers ?: Metadata())
         constructor(sp: com.google.rpc.Status) : this(StatusProto.toStatusRuntimeException(sp))
 

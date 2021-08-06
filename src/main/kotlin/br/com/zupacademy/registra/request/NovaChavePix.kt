@@ -14,7 +14,7 @@ import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Size
 
-//@ValidPixKey
+@ValidPixKey
 @Introspected
 class NovaChavePix(
     @ValidUUID

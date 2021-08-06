@@ -7,6 +7,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.allopen") version "1.4.32"
     id("com.google.protobuf") version "0.8.15"
     id("org.jetbrains.kotlin.plugin.noarg") version "1.5.21"
+    //id("org.jetbrains.kotlin.plugin.jpa") version "1.4.32"
 }
 
 allOpen {
@@ -48,6 +49,9 @@ dependencies {
     implementation("org.hibernate:hibernate-validator:6.1.6.Final")
     implementation("io.micronaut.beanvalidation:micronaut-hibernate-validator")
 
+    annotationProcessor("io.micronaut.data:micronaut-data-processor")
+
+
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
 
     testImplementation("io.micronaut:micronaut-http-client")
@@ -57,7 +61,15 @@ dependencies {
     implementation("io.micronaut.data:micronaut-data-hibernate-jpa")
     implementation("org.postgresql:postgresql:42.2.23")
 
-//    implementation("org.jetbrains.kotlin:kotlin-noarg:${kotlinVersion}")
+    //Testes
+    testImplementation("io.micronaut.sql:micronaut-jdbc-hikari")
+    testImplementation("com.h2database:h2")
+    testImplementation("io.micronaut:micronaut-inject-java")
+    testImplementation("io.micronaut:micronaut-http-client")
+    testImplementation("org.junit.jupiter:junit-jupiter-api")
+    testImplementation("org.mockito:mockito-core:3.8.0")
+    testImplementation("io.micronaut.test:micronaut-test-junit5:2.3.2")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.7.0")
 
 }
 

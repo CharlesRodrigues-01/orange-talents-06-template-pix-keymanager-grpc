@@ -27,7 +27,7 @@ class NovaChavePixService(@Inject val repository: ChavePixRepository,
         if (repository.existsByChave(novaChave.chave)) {
 
             logger.warn("Chave existente, lançando exceção")
-            throw ChavePixExistenteException("Chave Pix ${novaChave.chave} ja existe")
+            throw ChavePixExistenteException("Esta chave Pix ja existe")
         }
 
         logger.info("Buscando os dados da conta no ERP do Itaú")

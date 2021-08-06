@@ -22,7 +22,7 @@ class ChavePix(
 
     @field:NotBlank
     @Column(unique = true, nullable = false)
-    val chave: String,
+    var chave: String,
 
     @field:NotNull
     @Column(nullable = false)
@@ -39,4 +39,18 @@ class ChavePix(
 
     @Column(nullable = false)
     val criadaEm: LocalDateTime = LocalDateTime.now()
+
+    fun pertenceAoCliente(clientId: UUID) = this.clientId.equals(clientId)
+
+    fun isAleatoria(): Boolean {
+        return tipo == TipoDeChave.ALEATORIA
+    }
+
+    fun atualiza(chave: String): Boolean{
+        if (isAleatoria()){
+            this.chave = chave
+            return true
+        }
+        return false
+    }
 }

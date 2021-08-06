@@ -1,9 +1,14 @@
 package br.com.zupacademy.registra.model
 
-import io.micronaut.validation.validator.constraints.EmailValidator
 import org.hibernate.validator.internal.constraintvalidators.hv.br.CPFValidator
 
 enum class TipoChave {
+
+    UNKNOWN_CHAVE {
+        override fun valida(chave: String?): Boolean {
+            return false
+        }
+    },
 
     CPF{
         override fun valida(chave: String?): Boolean {
@@ -29,13 +34,15 @@ enum class TipoChave {
     },
 
     EMAIL{
+
         override fun valida(chave: String?): Boolean {
             if (chave.isNullOrBlank()){
                 return false
             }
-            return  EmailValidator().run {
-                initialize(null)
-                isValid(chave, null) }
+
+        return chave.matches(
+            "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}\\@[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}(\\.[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25})+"
+                .toRegex())
         }
     },
 
