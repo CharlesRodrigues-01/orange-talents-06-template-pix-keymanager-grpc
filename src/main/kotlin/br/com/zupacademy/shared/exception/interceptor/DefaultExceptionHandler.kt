@@ -1,6 +1,6 @@
-package br.com.zupacademy.registra.exception.interceptor
+package br.com.zupacademy.shared.exception.interceptor
 
-import br.com.zupacademy.registra.exception.interceptor.ExceptionHandler.*
+import br.com.zupacademy.shared.exception.interceptor.ExceptionHandler.StatusWithDetails
 import io.grpc.Status
 import javax.validation.ConstraintViolationException
 import javax.validation.ValidationException

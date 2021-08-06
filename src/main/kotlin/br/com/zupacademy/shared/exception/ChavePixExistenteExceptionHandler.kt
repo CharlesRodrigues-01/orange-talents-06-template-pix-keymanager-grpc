@@ -1,7 +1,7 @@
-package br.com.zupacademy.registra.exception
+package br.com.zupacademy.shared.exception
 
-import br.com.zupacademy.registra.exception.interceptor.ExceptionHandler
-import br.com.zupacademy.registra.exception.interceptor.ExceptionHandler.*
+import br.com.zupacademy.shared.exception.interceptor.ExceptionHandler
+import br.com.zupacademy.shared.exception.interceptor.ExceptionHandler.*
 import io.grpc.Status
 import javax.inject.Singleton
 

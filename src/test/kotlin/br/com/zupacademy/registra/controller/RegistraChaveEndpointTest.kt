@@ -1,18 +1,13 @@
 package br.com.zupacademy.registra.controller
 
 import br.com.zupacademy.KeyManagerRegistraGrpcServiceGrpc
-import br.com.zupacademy.KeyManagerRegistraGrpcServiceGrpc.newBlockingStub
 import br.com.zupacademy.RegistraChavePixRequest
-import br.com.zupacademy.RegistraChavePixResponse.newBuilder
 import br.com.zupacademy.TipoDeChave
 import br.com.zupacademy.TipoDeConta
-import br.com.zupacademy.registra.exception.interceptor.ExceptionHandlerInterceptor
-import br.com.zupacademy.registra.externo.ContasDeClientesItau
+import br.com.zupacademy.external.ContasDeClientesItau
 import br.com.zupacademy.registra.model.ChavePix
 import br.com.zupacademy.registra.model.ContaAssociada
-import br.com.zupacademy.registra.model.TipoChave
 import br.com.zupacademy.registra.repository.ChavePixRepository
-import br.com.zupacademy.registra.request.NovaChavePix
 import br.com.zupacademy.registra.response.DadosContaResponse
 import br.com.zupacademy.registra.response.InstituicaoResponse
 import br.com.zupacademy.registra.response.TitularResponse
@@ -24,7 +19,6 @@ import io.micronaut.context.annotation.Factory
 import io.micronaut.grpc.annotation.GrpcChannel
 import io.micronaut.grpc.server.GrpcServerChannel
 import io.micronaut.http.HttpResponse
-import io.micronaut.http.client.exceptions.HttpClientResponseException
 import io.micronaut.test.annotation.MockBean
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import org.junit.jupiter.api.Assertions.*

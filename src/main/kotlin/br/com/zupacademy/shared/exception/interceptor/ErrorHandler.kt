@@ -1,4 +1,4 @@
-package br.com.zupacademy.registra.exception.interceptor
+package br.com.zupacademy.shared.exception.interceptor
 
 import io.micronaut.aop.Around
 import io.micronaut.context.annotation.Type

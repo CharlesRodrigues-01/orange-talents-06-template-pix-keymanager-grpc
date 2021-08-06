@@ -1,4 +1,4 @@
-package br.com.zupacademy.registra.externo
+package br.com.zupacademy.external
 
 import br.com.zupacademy.registra.response.DadosContaResponse
 import io.micronaut.http.HttpResponse

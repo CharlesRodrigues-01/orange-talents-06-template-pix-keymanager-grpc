@@ -3,7 +3,7 @@ package br.com.zupacademy.registra.controller
 import br.com.zupacademy.KeyManagerRegistraGrpcServiceGrpc
 import br.com.zupacademy.RegistraChavePixRequest
 import br.com.zupacademy.RegistraChavePixResponse
-import br.com.zupacademy.registra.exception.interceptor.ErrorHandler
+import br.com.zupacademy.shared.exception.interceptor.ErrorHandler
 import br.com.zupacademy.registra.request.toModel
 import io.grpc.stub.StreamObserver
 import org.slf4j.LoggerFactory

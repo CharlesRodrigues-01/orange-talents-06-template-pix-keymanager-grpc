@@ -1,7 +1,7 @@
 package br.com.zupacademy.registra.controller
 
-import br.com.zupacademy.registra.exception.ChavePixExistenteException
-import br.com.zupacademy.registra.externo.ContasDeClientesItau
+import br.com.zupacademy.shared.exception.ChavePixExistenteException
+import br.com.zupacademy.external.ContasDeClientesItau
 import br.com.zupacademy.registra.model.ChavePix
 import br.com.zupacademy.registra.repository.ChavePixRepository
 import br.com.zupacademy.registra.request.NovaChavePix

@@ -1,4 +1,4 @@
-package br.com.zupacademy.registra.exception.interceptor
+package br.com.zupacademy.shared.exception.interceptor
 
 import javax.inject.Inject
 import javax.inject.Singleton

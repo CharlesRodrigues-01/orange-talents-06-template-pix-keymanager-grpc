@@ -5,8 +5,8 @@ import br.com.zupacademy.TipoDeConta
 import br.com.zupacademy.registra.model.ChavePix
 import br.com.zupacademy.registra.model.ContaAssociada
 import br.com.zupacademy.registra.model.TipoChave
-import br.com.zupacademy.registra.validation.ValidPixKey
-import br.com.zupacademy.registra.validation.ValidUUID
+import br.com.zupacademy.shared.validation.ValidPixKey
+import br.com.zupacademy.shared.validation.ValidUUID
 import io.micronaut.core.annotation.Introspected
 import org.slf4j.LoggerFactory
 import java.util.*

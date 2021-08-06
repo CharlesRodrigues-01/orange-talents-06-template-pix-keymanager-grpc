@@ -1,4 +1,4 @@
-package br.com.zupacademy.registra.validation
+package br.com.zupacademy.shared.validation
 
 import javax.validation.Constraint
 import javax.validation.Payload

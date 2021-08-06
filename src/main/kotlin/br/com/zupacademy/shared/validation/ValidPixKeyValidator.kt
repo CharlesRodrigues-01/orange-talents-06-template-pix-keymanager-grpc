@@ -1,4 +1,4 @@
-package br.com.zupacademy.registra.validation
+package br.com.zupacademy.shared.validation
 
 import br.com.zupacademy.registra.request.NovaChavePix
 import io.micronaut.core.annotation.AnnotationValue

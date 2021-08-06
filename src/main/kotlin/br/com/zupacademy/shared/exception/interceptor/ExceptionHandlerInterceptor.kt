@@ -1,4 +1,4 @@
-package br.com.zupacademy.registra.exception.interceptor
+package br.com.zupacademy.shared.exception.interceptor
 
 import io.grpc.BindableService
 import io.grpc.stub.StreamObserver

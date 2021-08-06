@@ -8,6 +8,11 @@ package br.com.zupacademy;
 service KeyManagerRegistraGrpcService {
 
   rpc registra (RegistraChavePixRequest) returns (RegistraChavePixResponse) {}
+
+}
+service KeyManagerRemoveGrpcService {
+
+  rpc remove (RemoveChavePixRequest) returns (RemoveChavePixResponse) {}
 }
 
 enum TipoDeChave{
@@ -33,6 +38,16 @@ message RegistraChavePixRequest {
 }
 
 message RegistraChavePixResponse {
+  string clientId = 1;
+  string pixId = 2;
+}
+
+message RemoveChavePixRequest {
+  string clientId = 1;
+  string pixId = 2;
+}
+
+message RemoveChavePixResponse {
   string clientId = 1;
   string pixId = 2;
 }
