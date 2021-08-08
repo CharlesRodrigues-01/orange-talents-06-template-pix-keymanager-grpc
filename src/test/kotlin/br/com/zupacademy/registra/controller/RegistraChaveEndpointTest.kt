@@ -61,8 +61,6 @@ internal class RegistraChaveEndpointTest(
     @Test
     fun `deve registrar uma nova chave Pix`() {
 
-        val logger = LoggerFactory.getLogger(this::class.java)
-
         // cenário
         `when`(
             itauClient.buscaContaPorTipo(
@@ -72,7 +70,6 @@ internal class RegistraChaveEndpointTest(
         )
             .thenReturn(HttpResponse.ok(dadosDaContaResponse()))
         // ação
-        logger.error("Inicio da ação")
 
         val response = grpcClient.registra(
             RegistraChavePixRequest

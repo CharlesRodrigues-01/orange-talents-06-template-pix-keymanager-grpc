@@ -29,7 +29,7 @@ class RemoveChavePixService(@Inject val repository: ChavePixRepository) {
         logger.info("Buscando se chave existe no sistema")
 
         val chave = repository.findByIdAndClientId(uuidPixId, uuidClientId)
-            .orElseThrow{ ChavePixNaoEncontradaException("Chave Pix não encontrada") }
+            .orElseThrow{ ChavePixNaoEncontradaException("Chave Pix não encontrada ou não pertence ao cliente") }
 
         logger.info("Chave Pix existe, início da deleção")
 
