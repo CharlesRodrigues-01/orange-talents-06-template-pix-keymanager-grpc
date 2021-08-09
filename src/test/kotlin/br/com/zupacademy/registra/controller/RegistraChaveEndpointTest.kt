@@ -27,7 +27,6 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.mockito.Mockito
 import org.mockito.Mockito.`when`
-import org.slf4j.LoggerFactory
 import java.util.*
 import javax.inject.Inject
 
