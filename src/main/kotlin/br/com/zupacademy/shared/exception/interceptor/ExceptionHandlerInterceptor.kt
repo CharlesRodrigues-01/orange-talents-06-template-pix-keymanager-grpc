@@ -19,7 +19,7 @@ class ExceptionHandlerInterceptor(@Inject private val resolver: ExceptionHandler
             return context.proceed()
         } catch (e: Exception) {
 
-            logger.error("Encontrou erro, lidando com ele")
+            logger.error("Encontrou erro, lidando com ele "+ e.javaClass)
             val handler = resolver.resolve(e) as ExceptionHandler<*>
             val status = handler.handle(e)
 

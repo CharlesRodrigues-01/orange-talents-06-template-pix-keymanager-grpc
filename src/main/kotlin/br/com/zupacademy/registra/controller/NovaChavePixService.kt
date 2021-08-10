@@ -42,10 +42,13 @@ class NovaChavePixService(@Inject val repository: ChavePixRepository,
         val chave = novaChave.toModel(conta)
         repository.save(chave)
 
-        logger.info("Enviando dados para criar chave Pix no Banco Central")
         val bcbRequest = CriaChavePixRequest.of(chave)
 
+        logger.info("Enviando dados para criar chave Pix no Banco Central")
+
         val bcbResponse = bancoCentralClient.cadastraPix(bcbRequest)
+        logger.info("Recebendo dados de chave Pix no Banco Central")
+
         if (bcbResponse.status != HttpStatus.CREATED){
             throw java.lang.IllegalStateException("Erro ao registrar chave Pix no Banco Central")
         }

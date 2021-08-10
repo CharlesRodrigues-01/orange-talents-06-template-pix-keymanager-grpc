@@ -4,7 +4,13 @@ import br.com.zupacademy.KeyManagerRegistraGrpcServiceGrpc
 import br.com.zupacademy.RegistraChavePixRequest
 import br.com.zupacademy.TipoDeChave
 import br.com.zupacademy.TipoDeConta
+import br.com.zupacademy.external.BancoCentralClient
 import br.com.zupacademy.external.ContasDeClientesItau
+import br.com.zupacademy.external.model.BankAccount
+import br.com.zupacademy.external.model.Owner
+import br.com.zupacademy.external.model.PixKeyType
+import br.com.zupacademy.external.request.CriaChavePixRequest
+import br.com.zupacademy.external.response.CriaChavePixBcbResponse
 import br.com.zupacademy.registra.model.ChavePix
 import br.com.zupacademy.registra.model.ContaAssociada
 import br.com.zupacademy.registra.repository.ChavePixRepository
@@ -27,6 +33,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.mockito.Mockito
 import org.mockito.Mockito.`when`
+import java.time.LocalDateTime
 import java.util.*
 import javax.inject.Inject
 
@@ -34,23 +41,28 @@ import javax.inject.Inject
 internal class RegistraChaveEndpointTest(
     @Inject val grpcClient: KeyManagerRegistraGrpcServiceGrpc.KeyManagerRegistraGrpcServiceBlockingStub,
     @Inject val repository: ChavePixRepository,
-    @Inject val itauClient: ContasDeClientesItau
 ) {
+
+    @Inject
+    lateinit var itauClient: ContasDeClientesItau
+
+    @Inject
+    lateinit var bancoCentralClient: BancoCentralClient
 
     companion object {
         val CLIENT_ID = UUID.randomUUID()
-    }
 
-    val clientId = UUID.randomUUID()
-    val tipoDeConta = TipoDeConta.CONTA_CORRENTE
-    val tipo = TipoDeChave.CPF
-    val chave = "00000000000"
-    val instituicao = "ITAÚ UNIBANCO S.A."
-    val ispb = "60701190"
-    val agencia = "0001"
-    val numeroConta = "291900"
-    val nomeTitular = "Alguém a ser testado"
-    val cpf = "00000000000"
+        val tipoDeConta = TipoDeConta.CONTA_CORRENTE
+        val tipo = TipoDeChave.CPF
+        val chave = "00000000000"
+        val instituicao = "ITAÚ UNIBANCO S.A."
+        val ispb = "60701190"
+        val agencia = "0001"
+        val numeroConta = "291900"
+        val nomeTitular = "Alguém a ser testado"
+        val cpf = "00000000000"
+        val clientId = UUID.randomUUID()
+    }
 
     @BeforeEach
     fun setUp() {
@@ -68,24 +80,27 @@ internal class RegistraChaveEndpointTest(
             )
         )
             .thenReturn(HttpResponse.ok(dadosDaContaResponse()))
-        // ação
 
+        `when`(bancoCentralClient.cadastraPix(criaChavePixRequest())).thenReturn(
+            HttpResponse.created(criaChavePixResponse())
+        )
+
+        // ação
         val response = grpcClient.registra(
             RegistraChavePixRequest
                 .newBuilder()
                 .setClientId(CLIENT_ID.toString())
-                .setTipoDeContaChave(TipoDeChave.EMAIL)
-                .setChave("teste@zup.com.br")
+                .setTipoDeContaChave(TipoDeChave.CPF)
+                .setChave("00000000000")
                 .setTipoDeConta(TipoDeConta.CONTA_CORRENTE)
                 .build()
         )
 
         // validação
-
         with(response) {
             assertEquals(CLIENT_ID.toString(), clientId)
             assertNotNull(pixId)
-            assertTrue(repository.existsByChave("teste@zup.com.br"))
+            assertTrue(repository.existsByChave("00000000000"))
         }
     }
 
@@ -123,8 +138,10 @@ internal class RegistraChaveEndpointTest(
         }
 
         //validação
-        assertEquals(Status.ALREADY_EXISTS.code, response.status.code)
-        assertTrue(response.message!!.contains("Esta chave Pix ja existe"))
+        with(response) {
+            assertEquals(Status.ALREADY_EXISTS.code, response.status.code)
+            assertTrue(response.message!!.contains("Esta chave Pix ja existe"))
+        }
     }
 
     @Test
@@ -137,8 +154,8 @@ internal class RegistraChaveEndpointTest(
                 tipo = "CONTA_CORRENTE"
             )
         ).thenReturn(HttpResponse.notFound())
-        //ação
 
+        //ação
         val response = assertThrows<StatusRuntimeException> {
             grpcClient.registra(
                 RegistraChavePixRequest
@@ -159,12 +176,16 @@ internal class RegistraChaveEndpointTest(
     }
 
     @Test
-    fun `nao deve registrar uma nova chave Pix com parametros invalidos`(){
+    fun `nao deve registrar uma nova chave Pix com parametros invalidos`() {
 
+        //cenário
+
+        // ação
         val response = assertThrows<StatusRuntimeException> {
             grpcClient.registra(RegistraChavePixRequest.newBuilder().build())
         }
 
+        // validação
         with(response) {
             assertEquals(Status.INVALID_ARGUMENT.code, status.code)
             assertTrue(response.message!!.contains("must not be null"))
@@ -172,9 +193,50 @@ internal class RegistraChaveEndpointTest(
 
     }
 
+    @Test
+    fun `nao deve registrar uma chave Pix quando nao for possivel registrar no BCB`(){
+
+        // cenário
+        `when`(
+            itauClient.buscaContaPorTipo(
+                clientId = CLIENT_ID.toString(),
+                tipo = "CONTA_CORRENTE"
+            )
+        )
+            .thenReturn(HttpResponse.ok(dadosDaContaResponse()))
+
+        `when`(bancoCentralClient.cadastraPix(criaChavePixRequest())).thenReturn(
+            HttpResponse.badRequest()
+        )
+
+        // ação
+        val response = assertThrows<StatusRuntimeException> {
+            grpcClient.registra(
+                RegistraChavePixRequest
+                    .newBuilder()
+                    .setClientId(CLIENT_ID.toString())
+                    .setTipoDeContaChave(TipoDeChave.CPF)
+                    .setChave("00000000000")
+                    .setTipoDeConta(TipoDeConta.CONTA_CORRENTE)
+                    .build()
+            )
+        }
+
+        // validação
+        with(response) {
+            assertEquals(Status.FAILED_PRECONDITION.code, status.code)
+            assertTrue(response.message!!.contains("Erro ao registrar chave Pix no Banco Central"))
+        }
+    }
+
     @MockBean(ContasDeClientesItau::class)
-    fun itauClient() : ContasDeClientesItau? {
+    fun itauClient(): ContasDeClientesItau? {
         return Mockito.mock(ContasDeClientesItau::class.java)
+    }
+
+    @MockBean(BancoCentralClient::class)
+    fun bancoCentralClient(): BancoCentralClient? {
+        return Mockito.mock(BancoCentralClient::class.java)
     }
 
     @Factory
@@ -187,13 +249,50 @@ internal class RegistraChaveEndpointTest(
         }
     }
 
-    private fun dadosDaContaResponse(): DadosContaResponse{
+    private fun dadosDaContaResponse(): DadosContaResponse {
         return DadosContaResponse(
             tipo = "CONTA_CORRENTE",
             instituicao = InstituicaoResponse("UNIBANCO ITAU SA", "60701190"),
             agencia = "0001",
             numero = "291900",
             titular = TitularResponse("Alguém a ser testado", "00000000000")
+        )
+    }
+
+    private fun criaChavePixRequest(): CriaChavePixRequest {
+        return CriaChavePixRequest(
+            keyType = PixKeyType.by(tipo),
+            key = chave,
+            bankAccount = BankAccount(
+                participant = ispb,
+                branch = agencia,
+                accountNumber = numeroConta,
+                accountType = BankAccount.AccountType.by(tipoDeConta)
+            ),
+            owner = Owner(
+                type = Owner.OwnerType.NATURAL_PERSON,
+                name = nomeTitular,
+                taxIdNumber = cpf
+            )
+        )
+    }
+
+    private fun criaChavePixResponse(): CriaChavePixBcbResponse {
+        return CriaChavePixBcbResponse(
+            keyType = PixKeyType.by(tipo),
+            key = chave,
+            bankAccount = BankAccount(
+                participant = ispb,
+                branch = agencia,
+                accountNumber = numeroConta,
+                accountType = BankAccount.AccountType.by(tipoDeConta)
+            ),
+            owner = Owner(
+                type = Owner.OwnerType.NATURAL_PERSON,
+                name = nomeTitular,
+                taxIdNumber = cpf
+            ),
+            createdAt = LocalDateTime.now()
         )
     }
 }
