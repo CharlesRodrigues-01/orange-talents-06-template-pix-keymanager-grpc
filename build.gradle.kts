@@ -28,7 +28,6 @@ repositories {
 }
 
 micronaut {
-//    runtime("netty")
     testRuntime("junit5")
     processing {
         incremental(true)

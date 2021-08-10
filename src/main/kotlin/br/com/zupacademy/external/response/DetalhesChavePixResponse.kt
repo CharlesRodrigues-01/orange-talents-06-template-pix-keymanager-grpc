@@ -1,11 +1,11 @@
 package br.com.zupacademy.external.response
 
 import br.com.zupacademy.TipoDeConta
+import br.com.zupacademy.carrega.response.ChavePixInfo
 import br.com.zupacademy.external.model.BankAccount
 import br.com.zupacademy.external.model.Owner
 import br.com.zupacademy.external.model.PixKeyType
 import br.com.zupacademy.registra.model.ContaAssociada
-import br.com.zupacademy.registra.response.ChavePixResponse
 import java.time.LocalDateTime
 
 data class DetalhesChavePixResponse(
@@ -15,8 +15,8 @@ data class DetalhesChavePixResponse(
     val owner: Owner,
     val cratedAt: LocalDateTime
 ) {
-    fun toModel(): ChavePixResponse {
-        return ChavePixResponse(
+    fun toModel(): ChavePixInfo {
+        return ChavePixInfo(
             tipo = keyType.domainType!!,
             chave = this.key,
             tipoDeConta = when (this.bankAccount.accountType){

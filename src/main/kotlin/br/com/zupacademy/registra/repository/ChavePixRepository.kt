@@ -1,5 +1,6 @@
 package br.com.zupacademy.registra.repository
 
+import br.com.zupacademy.carrega.response.ChavePixInfo
 import br.com.zupacademy.registra.model.ChavePix
 import io.micronaut.data.annotation.Query
 import io.micronaut.data.annotation.Repository
@@ -14,4 +15,6 @@ interface ChavePixRepository : JpaRepository<ChavePix, UUID> {
     @Query("SELECT a FROM ChavePix a WHERE a.clientId = :uuidClientId "
             + "AND a.id = :uuidPixId")
     fun findByIdAndClientId(uuidPixId: UUID?, uuidClientId: UUID?): Optional<ChavePix>
+
+    fun findByChave(chave: String): Optional<ChavePix>
 }
