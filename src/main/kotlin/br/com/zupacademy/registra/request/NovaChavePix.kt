@@ -18,13 +18,13 @@ import javax.validation.constraints.Size
 @Introspected
 class NovaChavePix(
     @ValidUUID
-    @field:NotBlank
+    @field:NotBlank(message ="Dados inválidos")
     val clientId: String?,
-    @field:NotNull
+    @field:NotNull(message ="Dados inválidos")
     val tipo: TipoChave?,
     @field:Size(max = 77)
     val chave: String,
-    @field:NotNull
+    @field:NotNull(message ="Dados inválidos")
     val tipoDeConta: TipoDeConta?
 ) {
     private val logger = LoggerFactory.getLogger(NovaChavePix::class.java)

@@ -25,6 +25,15 @@ jpa:
         show_sql: true
         format_sql: true
 
+endpoints:
+  all:
+    port: 8085
+    sensitive: true
+  health:
+    enabled: true
+    sensitive: false
+    details-visible: ANONYMOUS
+
 itau:
   contas:
     url: 'http://localhost:9091/'

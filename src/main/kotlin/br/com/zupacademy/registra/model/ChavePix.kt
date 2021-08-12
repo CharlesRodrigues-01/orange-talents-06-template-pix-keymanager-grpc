@@ -11,25 +11,25 @@ import javax.validation.constraints.NotNull
 @Entity
 class ChavePix(
 
-    @field:NotNull
+    @field:NotNull(message ="Dados inválidos")
     @Column(nullable = false)
     val clientId: UUID,
 
-    @field:NotNull
+    @field:NotNull(message ="Dados inválidos")
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     val tipo: TipoDeChave,
 
-    @field:NotBlank
+    @field:NotBlank(message ="Dados inválidos")
     @Column(unique = true, nullable = false)
     var chave: String,
 
-    @field:NotNull
+    @field:NotNull(message ="Dados inválidos")
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     val tipoDeConta: TipoDeConta,
 
-    @field:NotNull
+    @field:NotNull(message ="Dados inválidos")
     @Embedded
     val conta: ContaAssociada
 ) {

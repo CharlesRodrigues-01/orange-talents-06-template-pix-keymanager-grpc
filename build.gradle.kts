@@ -28,6 +28,7 @@ repositories {
 }
 
 micronaut {
+    runtime("netty")
     testRuntime("junit5")
     processing {
         incremental(true)
@@ -48,6 +49,7 @@ dependencies {
     implementation("org.hibernate:hibernate-validator:6.1.6.Final")
     implementation("io.micronaut.beanvalidation:micronaut-hibernate-validator")
     implementation("io.micronaut.xml:micronaut-jackson-xml")
+    implementation("io.micronaut:micronaut-management")
     annotationProcessor("io.micronaut.data:micronaut-data-processor")
 
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")

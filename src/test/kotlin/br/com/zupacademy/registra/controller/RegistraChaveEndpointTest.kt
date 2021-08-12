@@ -188,7 +188,7 @@ internal class RegistraChaveEndpointTest(
         // validação
         with(response) {
             assertEquals(Status.INVALID_ARGUMENT.code, status.code)
-            assertTrue(response.message!!.contains("must not be null"))
+            assertTrue(response.message!!.contains("Dados inválidos"))
         }
 
     }
