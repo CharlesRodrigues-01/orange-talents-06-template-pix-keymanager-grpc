@@ -1,20 +1,22 @@
 micronaut:
   application:
     name: keyManager
+  server:
+    port: ${SERVER_PORT:8081}
 
 grpc:
   server:
-    port: ${SERVER_PORT:50051}
+    port: ${SERVER_PORT:50052}
     keep_alive_time: 1h
     max-inbound-message-size: 1024
 
 datasources:
   default:
-    url: jdbc:postgresql://localhost:5432/keymanagergrpc
+    url: ${DB_URI:`jdbc:postgresql://localhost:5432/keymanagergrpc`}
     driverClassName: org.postgresql.Driver
-    username: postgres
-    password: 123
-    dialect: POSTGRES
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:123}
+    dialect: ${DB_DIALECT:POSTGRES}
 
 jpa:
   default:
@@ -27,7 +29,7 @@ jpa:
 
 endpoints:
   all:
-    port: 8085
+    port: ${HEALTH_PORT:8085}
     sensitive: true
   health:
     enabled: true
