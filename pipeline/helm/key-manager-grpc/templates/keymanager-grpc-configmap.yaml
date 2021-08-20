@@ -1,0 +1,13 @@
+apiVersion: apps/v1
+kind: ConfigMap
+metadata:
+  name: keymanager-grpc-configmap
+data:
+  SERVER_PORT: 8081
+  GRPC_PORT: 50052
+  DB_URI: `jdbc:postgresql://localhost:5432/keymanagergrpc`
+  DB_USER: postgres
+  DB_DIALECT: POSTGRES
+  HEALTH_PORT: 8085
+  ITAU_URL: `http://localhost:9091/`
+  BCB_URL: `http://localhost:8082/`

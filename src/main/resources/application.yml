@@ -6,7 +6,7 @@ micronaut:
 
 grpc:
   server:
-    port: ${SERVER_PORT:50052}
+    port: ${GRPC_PORT:50052}
     keep_alive_time: 1h
     max-inbound-message-size: 1024
 
@@ -38,8 +38,8 @@ endpoints:
 
 itau:
   contas:
-    url: 'http://localhost:9091/'
+    url: ${ITAU_URL:`http://localhost:9091/`}
 
 bcb:
   pix:
-    url: 'http://localhost:8082/'
+    url: ${BCB_URL:`http://localhost:8082/`}
